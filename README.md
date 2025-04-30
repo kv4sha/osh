@@ -1,4 +1,4 @@
-# Chat
+# OSH
 
 This is a React project using Vite as the build tool, TypeScript for static typing, and Tailwind CSS for styling.
 
