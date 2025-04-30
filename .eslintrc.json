@@ -1,0 +1,359 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".css"],
+        "moduleDirectory": ["node_modules", "src/"]
+      }
+    },
+    "boundaries/elements": [
+      {
+        "type": "components",
+        "pattern": "src/components/*"
+      },
+      {
+        "type": "constants",
+        "pattern": "src/constants/**/*",
+        "mode": "full"
+      },
+      {
+        "type": "helpers",
+        "pattern": ["src/helpers/**/*"],
+        "mode": "full"
+      },
+      {
+        "type": "hooks",
+        "pattern": "src/hooks/**/*",
+        "mode": "file"
+      },
+      {
+        "type": "pages",
+        "pattern": "src/pages/*"
+      },
+      {
+        "type": "types",
+        "pattern": "src/types/**/*",
+        "mode": "full"
+      },
+      {
+        "type": "features",
+        "pattern": "src/features/*"
+      },
+      {
+        "type": "dataAccess",
+        "pattern": "src/dataAccess/*"
+      }
+    ],
+    "boundaries/ignore": [
+      "src/App.tsx",
+      "src/main.tsx",
+      "src/router.tsx",
+      "src/vite-env.d.ts",
+      "tailwind.config.ts",
+      "vite.config.ts",
+      "vite.widget.config.ts",
+      "src/mocks/**/*",
+      "src/chatbotWidget/**/*"
+    ]
+  },
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:react/recommended",
+    "plugin:json/recommended-legacy",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+    "plugin:boundaries/recommended",
+    "plugin:tailwindcss/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.app.json", "./tsconfig.node.json"]
+  },
+  "plugins": ["react", "@typescript-eslint", "prettier", "boundaries"],
+  "rules": {
+    "boundaries/element-types": [
+      2,
+      {
+        "default": "disallow",
+        "rules": [
+          {
+            "from": "components",
+            "allow": ["constants", "hooks", "components", "helpers"]
+          },
+          {
+            "from": "constants",
+            "allow": ["constants"]
+          },
+          {
+            "from": "helpers",
+            "allow": ["helpers", "constants"]
+          },
+          {
+            "from": "hooks",
+            "allow": ["constants", "hooks", "helpers"]
+          },
+          {
+            "from": "pages",
+            "allow": [
+              "constants",
+              "hooks",
+              "components",
+              "features",
+              "helpers",
+              "dataAccess"
+            ],
+            "disallow": ["pages"]
+          },
+          {
+            "from": "features",
+            "allow": [
+              "constants",
+              "components",
+              "helpers",
+              "hooks",
+              "features",
+              "dataAccess"
+            ]
+          },
+          {
+            "from": "dataAccess",
+            "allow": ["dataAccess", "features"]
+          },
+          {
+            "from": "types",
+            "allow": ["types"]
+          },
+          {
+            "from": "*",
+            "allow": ["types"]
+          }
+        ]
+      }
+    ],
+    "boundaries/no-unknown": [2],
+    "boundaries/no-unknown-files": [2],
+    "boundaries/entry-point": [
+      2,
+      {
+        "default": "disallow",
+        "rules": [
+          {
+            "target": ["constants", "hooks", "helpers", "types"],
+            "allow": "*"
+          },
+          {
+            "target": [
+              "components",
+              "features",
+              "contexts",
+              "pages",
+              "helpers-index",
+              "dataAccess"
+            ],
+            "allow": "**/index.{js,ts}"
+          }
+        ]
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "func-names": "warn",
+    "object-shorthand": "warn",
+    "class-methods-use-this": "warn",
+    "quotes": "warn",
+    "react/prop-types": 0,
+    "max-len": [
+      "error",
+      100,
+      {
+        "ignoreStrings": true,
+        "ignoreRegExpLiterals": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreComments": true
+      }
+    ],
+    "prettier/prettier": "error",
+    "import/prefer-default-export": "off",
+    "padding-line-between-statements": [
+      "error",
+      // Always require blank lines after directive (like 'use-strict'), except between directives
+      {
+        "blankLine": "always",
+        "prev": "directive",
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": "directive",
+        "next": "directive"
+      },
+      // Always require blank lines after import, except between imports
+      {
+        "blankLine": "always",
+        "prev": "import",
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": "import",
+        "next": "import"
+      },
+      // Always require blank lines before and after every sequence of variable declarations and export
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["const", "let", "var", "export"]
+      },
+      {
+        "blankLine": "always",
+        "prev": ["const", "let", "var", "export"],
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": ["const", "let", "var", "export"],
+        "next": ["const", "let", "var", "export"]
+      },
+      // Always require blank lines before and after class declaration, if, do/while, switch, try
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["if", "class", "for", "do", "while", "switch", "try"]
+      },
+      {
+        "blankLine": "always",
+        "prev": ["if", "class", "for", "do", "while", "switch", "try"],
+        "next": "*"
+      },
+      // Always require blank lines before return statements
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "return"
+      }
+    ],
+    "import/order": [
+      "warn",
+      {
+        "groups": [["builtin", "external"], "internal", ["parent", "sibling", "index"]],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "react/jsx-props-no-spreading": "off",
+    "no-restricted-exports": [
+      "error",
+      {
+        "restrictedNamedExports": ["then"]
+      }
+    ],
+    "react/no-array-index-key": "off",
+    "lines-between-class-members": [
+      "error",
+      "always",
+      {
+        "exceptAfterSingleLine": true
+      }
+    ],
+    "react/require-default-props": "off",
+    "@typescript-eslint/no-floating-promises": [
+      "error",
+      {
+        "ignoreVoid": true
+      }
+    ],
+    "no-void": [
+      "error",
+      {
+        "allowAsStatement": true
+      }
+    ],
+    "react/jsx-no-useless-fragment": [
+      "error",
+      {
+        "allowExpressions": true
+      }
+    ],
+
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx", ".tsx"]
+      }
+    ],
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": {
+          "attributes": false
+        }
+      }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "vite.config.ts",
+          "tailwind.config.ts",
+          "vite.widget.config.ts",
+          "src/mocks/**/*"
+        ]
+      }
+    ],
+    "tailwindcss/no-custom-classname": [
+      "error",
+      {
+        "whitelist": ["^hi-[a-z]+(?:-[a-z]+)*$"]
+      }
+    ],
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ],
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ],
+    "jsx-a11y/no-autofocus": "off"
+  },
+  "overrides": []
+}

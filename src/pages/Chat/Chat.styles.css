@@ -1,0 +1,13 @@
+/* SimpleBar overrides */
+.sidebar-scroll-section-chatai {
+  height: calc(100vh - 11rem);
+}
+
+.sidebar-scroll-section-chatai .simplebar-scrollbar::before {
+  background-color: #9ca3af;
+  left: 0.25rem;
+}
+
+.dark .sidebar-scroll-section-chatai .simplebar-scrollbar::before {
+  background-color: #fff;
+}
