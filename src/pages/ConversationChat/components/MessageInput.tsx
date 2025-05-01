@@ -1,8 +1,9 @@
 type MessageInputProps = {
   onSubmit: (message: string) => void;
+  disabled?: boolean;
 };
 
-export function MessageInput({ onSubmit }: MessageInputProps) {
+export function MessageInput({ onSubmit, disabled }: MessageInputProps) {
   return (
     <div className="fixed inset-x-0 bottom-0 flex h-20 items-center border-t border-slate-200/75 bg-white/90 backdrop-blur-sm lg:left-80 lg:h-24 dark:border-slate-700/75 dark:bg-slate-900/90">
       <form
@@ -20,6 +21,7 @@ export function MessageInput({ onSubmit }: MessageInputProps) {
             type="text"
             className="block min-w-[100px] grow rounded-xl border-0 bg-slate-100/75 py-3.5 pl-3 pr-28 text-sm leading-6 focus:ring focus:ring-indigo-500/75 sm:py-5 sm:text-base lg:pl-5 dark:bg-slate-800/75 dark:placeholder:text-slate-400"
             placeholder="Type a new prompt.."
+            disabled={disabled}
           />
           <div className="absolute inset-y-0 right-0 flex items-center justify-center gap-2 pr-2.5">
             <button

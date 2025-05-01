@@ -4,7 +4,7 @@ type ThreadLinkProps = {
   isSelected: boolean;
   to: string;
   title: string;
-  subTitle: string;
+  subTitle?: string;
   timeLabel?: string;
 };
 
@@ -40,13 +40,8 @@ export function ThreadLink({
           />
         </svg>
       </div>
-      <div className="grow">
-        <p className="mb-0.5 line-clamp-1 text-sm font-bold">{title}</p>
-        <p className="line-clamp-1 text-xs font-medium text-slate-500 dark:text-slate-400">
-          {subTitle}
-        </p>
-      </div>
-      <div className="flex-none self-start">
+      <div className="grow overflow-hidden">
+        <p className="mb-0.5 truncate text-sm font-bold">{title}</p>
         <p className="text-xs font-medium text-slate-400">{timeLabel}</p>
       </div>
     </Link>

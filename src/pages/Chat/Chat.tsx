@@ -1,10 +1,12 @@
 import { Transition } from '@headlessui/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
+
+import { useCreateThread } from 'dataAccess/hooks';
+import { useThreads } from 'hooks';
 
 import { ConversationsList } from './ConversationsList';
 
-// Custom CSS styles
 import './Chat.styles.css';
 
 export function Chat() {
@@ -12,10 +14,29 @@ export function Chat() {
 
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
+  const { addThread } = useThreads();
+  const { mutateAsync, isPending } = useCreateThread();
+
   // Close sidebar on mobile when the route location changes
   useEffect(() => {
     setMobileSidebarOpen(false);
   }, [location]);
+
+  const handleCreateThread = useCallback(async () => {
+    // Create a new thread
+
+    try {
+      const res = await mutateAsync();
+
+      addThread({
+        id: res.id,
+        title: `${res.id}`,
+        createdAt: res.created_at,
+      });
+    } catch (error) {
+      console.error('Error creating thread:', error);
+    }
+  }, [addThread, mutateAsync]);
 
   return (
     <>
@@ -116,9 +137,15 @@ export function Chat() {
                     Conversations
                   </h3>
                   <button
+                    disabled={isPending}
                     aria-label="Add a new conversation"
                     type="button"
-                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-1.5 py-1 text-sm font-semibold leading-5 text-slate-800 hover:border-slate-300 hover:text-slate-900 hover:shadow-sm focus:ring focus:ring-slate-300/25 active:border-slate-200 active:shadow-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:text-slate-200 dark:focus:ring-slate-600/40 dark:active:border-slate-700"
+                    className={`inline-flex items-center justify-center gap-2 rounded-lg border px-1.5 py-1 text-sm font-semibold leading-5 ${
+                      isPending
+                        ? 'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 dark:border-slate-700 dark:bg-slate-700 dark:text-slate-500'
+                        : 'border-slate-200 bg-white text-slate-800 hover:border-slate-300 hover:text-slate-900 hover:shadow-sm focus:ring focus:ring-slate-300/25 active:border-slate-200 active:shadow-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:text-slate-200 dark:focus:ring-slate-600/40 dark:active:border-slate-700'
+                    }`}
+                    onClick={handleCreateThread}
                   >
                     <svg
                       className="hi-mini hi-plus -mx-0.5 inline-block size-4"

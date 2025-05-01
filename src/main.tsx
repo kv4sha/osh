@@ -6,6 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 
 import { reactQueryClient } from 'features/reactQuery';
 import { ThemeProvider } from 'features/theme';
+import { ThreadProvider } from 'hooks';
 
 import router from './router';
 
@@ -16,7 +17,9 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={reactQueryClient}>
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
       <ThemeProvider>
-        <RouterProvider router={router} />
+        <ThreadProvider>
+          <RouterProvider router={router} />
+        </ThreadProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>,
